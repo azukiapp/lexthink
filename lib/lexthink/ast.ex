@@ -131,6 +131,13 @@ defmodule Lexthink.AST do
     :term.new(type: :'BETWEEN', args: args, optargs: optargs)
   end
 
+  @spec filter(:term.t, Dict.t | [Dict.t] | fun, Keyword.t) :: :term.t
+  def filter(selection, data, options // []) do
+    args = [selection, func_wrap(data)]
+    optargs = lc opt inlist options, do: option_term(opt)
+    :term.new(type: :'FILTER', args: args, optargs: optargs)
+  end
+
   @spec update(:term.t, Dict.t | fun, Keyword.t) :: :term.t
   def update(selection, data, options // []) do
     args = [selection, func_wrap(data)]
