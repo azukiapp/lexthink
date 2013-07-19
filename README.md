@@ -19,7 +19,8 @@ Use
 >
 > # Table options
 > db("superheroes") |> table_create("marvel") |> Lexthink.run(:my_db_pool)
-> db("superheroes") |> table_create("marvel", :primary_key, "name") |> Lexthink.run(:my_db_pool)
+> db("superheroes") |> table_create("marvel", :primary_key, "name") |>
+>   Lexthink.run(:my_db_pool)
 > db("superheroes") |> table_list |> Lexthink.run(:my_db_pool)
 > db("superheroes") |> table_drop("marvel") |> Lexthink.run(:my_db_pool)
 >
@@ -31,7 +32,15 @@ Use
        HashDict.new({"id", 6}, {"name", "robin"}, {:rich, :false}, {"cars", :null})]
 > table("marvel") |> insert(h) |> Lexthink.run(:my_db_pool)
 > table("marvel") |> get(5) |> Lexthink.run(:my_db_pool)
-> table("marvel") |> update(HashDict.new(age: row["age"] |> add(1))) |> Lexthink.run(:my_db_pool)
+> table("marvel") |> update(HashDict.new(age: row["age"] |> add(1))) |>
+>   Lexthink.run(:my_db_pool)
 > table("marvel") |> update(fn x -> x[:age] |> add(1) end) |> Lexthink.run(:my_db_pool)
-> table("dc") |> index_create("parental_planets", fn hero -> [hero[:mother], hero[:father]] end) |> Lexthink.run(:my_db_pool)
+> table("dc") |>
+>   index_create("parental_planets", fn hero -> [hero[:mother], hero[:father]] end) |>
+>   Lexthink.run(:my_db_pool)
+>
+> # Filter
+> table("marvel") |> filter(HashDict.new(name: "batman")) |> Lexthink.run(:my_db_pool)
+> table("marval") |> filter(fn hero -> hero["rich"] |> eq(true) end) |>
+>   Lexthink.run(:my_db_pool)
 ```
