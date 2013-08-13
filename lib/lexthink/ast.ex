@@ -264,6 +264,7 @@ defmodule Lexthink.AST do
   # are created via MAKE_ARRAY and MAKE_OBJ on the server since it's
   # cheaper that way.
   @spec datum(datum_arg) :: :datum.t
+  defp datum(nil), do: :datum.new()
   defp datum(:null), do: :datum.new(type: :'R_NULL')
   defp datum(v) when is_boolean(v), do: :datum.new(type: :'R_BOOL', r_bool: v)
   defp datum(v) when is_number(v), do: :datum.new(type: :'R_NUM', r_num: v)
